@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateOgrenciDto } from './dto/create-ogrenci.dto';
 import { UpdateOgrenciDto } from './dto/update-ogrenci.dto';
 import { Ogrenci } from './entities/ogrenci.entity';
+import { Bolum } from 'src/bolum/entities/bolum.entity';
 
 @Injectable()
 export class OgrenciService {
@@ -13,6 +14,7 @@ export class OgrenciService {
    */
   constructor(
     @InjectRepository(Ogrenci) private readonly ogrenciRepository: Repository<Ogrenci>,
+    @InjectRepository(Bolum) private readonly bolumRepository: Repository<Bolum>,
   ) {}
 
   /**
@@ -21,11 +23,14 @@ export class OgrenciService {
    * we have defined what are the keys we are expecting from body
    * @returns promise of user
    */
-  createOgrenci(createOgrenciDto: CreateOgrenciDto): Promise<Ogrenci> {
+  async createOgrenci(createOgrenciDto: CreateOgrenciDto): Promise<Ogrenci> {
     const ogrenci: Ogrenci = new Ogrenci();
+    let bolum = await this.bolumRepository.findOneByOrFail({
+        id: createOgrenciDto.deptid,
+    });
+    ogrenci.dept = bolum; 
     ogrenci.name = createOgrenciDto.name;
     ogrenci.email = createOgrenciDto.email;
-    ogrenci.deptid = createOgrenciDto.deptid;
     ogrenci.counter = createOgrenciDto.counter;
     return this.ogrenciRepository.save(ogrenci);
   }
@@ -43,7 +48,7 @@ export class OgrenciService {
    * @param id is type of number, which represent the id of user.
    * @returns promise of user
    */
-  viewOgrenci(id: number): Promise<Ogrenci> {
+  findOneOgrenci(id: number): Promise<Ogrenci> {
     return this.ogrenciRepository.findOneBy({ id });
   }
 
@@ -54,13 +59,17 @@ export class OgrenciService {
    * @param updateOgrenciDto this is partial type of createUserDto.
    * @returns promise of udpate user
    */
-  updateOgrenci(id: number, updateOgrenciDto: UpdateOgrenciDto): Promise<Ogrenci> {
+  async updateOgrenci(id: number, updateOgrenciDto: UpdateOgrenciDto): Promise<Ogrenci> {
     const ogrenci: Ogrenci = new Ogrenci();
+    let bolum = await this.bolumRepository.findOneByOrFail({
+        id: updateOgrenciDto.deptid
+    });
+
+    ogrenci.id = id;
     ogrenci.name = updateOgrenciDto.name;
     ogrenci.email = updateOgrenciDto.email;
-    ogrenci.deptid = updateOgrenciDto.deptid;
     ogrenci.counter = updateOgrenciDto.counter;
-    ogrenci.id = id;
+    ogrenci.dept = bolum; 
     return this.ogrenciRepository.save(ogrenci);
   }
 
