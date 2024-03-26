@@ -9,26 +9,26 @@ export class OgrenciController {
 
   @Post()
   create(@Body() createOgrenciDto: CreateOgrenciDto) {
-    return this.ogrenciService.create(createOgrenciDto);
+    return this.ogrenciService.createOgrenci(createOgrenciDto);
   }
 
   @Get()
   findAll() {
-    return this.ogrenciService.findAll();
+    return this.ogrenciService.findAllOgrenci();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.ogrenciService.findOne(+id);
+    return this.ogrenciService.findOneOgrenci(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOgrenciDto: UpdateOgrenciDto) {
-    return this.ogrenciService.update(+id, updateOgrenciDto);
+    return this.ogrenciService.updateOgrenci(+id, updateOgrenciDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.ogrenciService.remove(+id);
+    return this.ogrenciService.removeOgrenci(+id);
   }
 }
