@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Bolum } from '../../bolum/entities/bolum.entity';
 
 @Entity()
 export class Ogrenci {
@@ -15,8 +16,9 @@ export class Ogrenci {
   email: string;
 
   @Column({ type: 'int' })
-  deptid: number;
-
-  @Column({ type: 'int' })
   counter: number;
+
+  @OneToOne(() => Bolum, { cascade: true })
+  @JoinColumn()
+  dept: Bolum;
 }
