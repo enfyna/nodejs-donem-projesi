@@ -9,26 +9,26 @@ export class BolumController {
 
   @Post()
   create(@Body() createBolumDto: CreateBolumDto) {
-    return this.bolumService.create(createBolumDto);
+    return this.bolumService.createBolum(createBolumDto);
   }
 
   @Get()
   findAll() {
-    return this.bolumService.findAll();
+    return this.bolumService.findAllBolum();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bolumService.findOne(+id);
+    return this.bolumService.findOneBolum(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBolumDto: UpdateBolumDto) {
-    return this.bolumService.update(+id, updateBolumDto);
+    return this.bolumService.updateBolum(+id, updateBolumDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bolumService.remove(+id);
+    return this.bolumService.removeBolum(+id);
   }
 }
