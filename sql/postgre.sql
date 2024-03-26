@@ -1,15 +1,15 @@
-CREATE TABLE Bölüm (
+CREATE TABLE bolum (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     UNIQUE (id)
 );
 
-CREATE TABLE Öğrenci (
+CREATE TABLE ogrenci (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     deptid INT,
     counter INT,
-    FOREIGN KEY (deptid) REFERENCES Bölüm(id),
+    FOREIGN KEY (deptid) REFERENCES bolum(id),
     UNIQUE (deptid)
 );
