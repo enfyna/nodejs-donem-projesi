@@ -6,21 +6,26 @@ import { OgrenciModule } from './ogrenci/ogrenci.module';
 import { BolumModule } from './bolum/bolum.module';
 import { Ogrenci } from './ogrenci/entities/ogrenci.entity';
 import { Bolum } from './bolum/entities/bolum.entity';
-// import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      password: '',
-      username: 'admin',
-      entities: [Ogrenci, Bolum],
-      database: 'nodejs_proje_db',
-      synchronize: true,
-      logging: true,
-    }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST', ''),
+        port: configService.get<number>('DB_PORT', 0),
+        username: configService.get<string>('DB_USERNAME', ''),
+        password: configService.get<string>('DB_PASSWORD', ''),
+        database: configService.get<string>('DB_NAME', ''),
+        entities: [Ogrenci, Bolum],
+        synchronize: configService.get<boolean>('DB_SYNC', true),
+        logging: configService.get<boolean>('DB_LOGGING', true),
+      }),
+    }),    
     OgrenciModule,
     BolumModule,
   ],
