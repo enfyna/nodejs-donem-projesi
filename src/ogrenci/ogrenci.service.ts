@@ -40,7 +40,9 @@ export class OgrenciService {
    * @returns promise of array of users
    */
   findAllOgrenci(): Promise<Ogrenci[]> {
-    return this.ogrenciRepository.find();
+    return this.ogrenciRepository.find({
+        relations: ['dept'],
+    });
   }
 
   /**
@@ -49,7 +51,10 @@ export class OgrenciService {
    * @returns promise of user
    */
   findOneOgrenci(id: number): Promise<Ogrenci> {
-    return this.ogrenciRepository.findOneBy({ id });
+    return this.ogrenciRepository.findOne({
+        where: {id: id},
+        relations: ['dept'],
+    })
   }
 
   /**
