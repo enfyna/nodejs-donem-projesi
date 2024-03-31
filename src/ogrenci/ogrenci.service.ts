@@ -66,7 +66,7 @@ export class OgrenciService {
    */
   async updateOgrenci(id: number, updateOgrenciDto: UpdateOgrenciDto): Promise<Ogrenci> {
     const ogrenci: Ogrenci = new Ogrenci();
-    let bolum = await this.bolumRepository.findOneByOrFail({
+    const bolum = await this.bolumRepository.findOneByOrFail({
         id: updateOgrenciDto.deptid
     });
 
@@ -74,7 +74,11 @@ export class OgrenciService {
     ogrenci.name = updateOgrenciDto.name;
     ogrenci.email = updateOgrenciDto.email;
     ogrenci.counter = updateOgrenciDto.counter;
-    ogrenci.dept = bolum; 
+    if(ogrenci.dept && ogrenci.dept.id !== bolum.id)
+        ogrenci.dept = bolum; 
+    else{
+        delete ogrenci.dept
+    }
     return this.ogrenciRepository.save(ogrenci);
   }
 
