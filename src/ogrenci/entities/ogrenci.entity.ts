@@ -15,9 +15,6 @@ export class Ogrenci {
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column({ type: 'int' })
-  counter: number;
-
   @OneToOne(() => Bolum, { cascade: true })
   @JoinColumn()
   dept: Bolum;
