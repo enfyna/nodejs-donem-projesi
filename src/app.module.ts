@@ -7,6 +7,7 @@ import { BolumModule } from './bolum/bolum.module';
 import { Ogrenci } from './ogrenci/entities/ogrenci.entity';
 import { Bolum } from './bolum/entities/bolum.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OgrenciSayac } from './ogrenci-sayac/entities/ogrenci-sayac.entity';
 
 @Module({
   imports: [
@@ -21,15 +22,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get<string>('DB_USERNAME', ''),
         password: configService.get<string>('DB_PASSWORD', ''),
         database: configService.get<string>('DB_NAME', ''),
-        entities: [Ogrenci, Bolum],
+        entities: [Ogrenci, Bolum, OgrenciSayac],
         synchronize: configService.get<boolean>('DB_SYNC', true),
         logging: configService.get<boolean>('DB_LOGGING', true),
       }),
-    }),    
+    }),
     OgrenciModule,
     BolumModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

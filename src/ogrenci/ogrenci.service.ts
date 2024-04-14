@@ -5,6 +5,7 @@ import { CreateOgrenciDto } from './dto/create-ogrenci.dto';
 import { UpdateOgrenciDto } from './dto/update-ogrenci.dto';
 import { Ogrenci } from './entities/ogrenci.entity';
 import { Bolum } from 'src/bolum/entities/bolum.entity';
+import { OgrenciSayac } from 'src/ogrenci-sayac/entities/ogrenci-sayac.entity';
 
 @Injectable()
 export class OgrenciService {
@@ -15,7 +16,8 @@ export class OgrenciService {
   constructor(
     @InjectRepository(Ogrenci) private readonly ogrenciRepository: Repository<Ogrenci>,
     @InjectRepository(Bolum) private readonly bolumRepository: Repository<Bolum>,
-  ) {}
+    @InjectRepository(OgrenciSayac) private readonly ogrenciSayacRepository: Repository<OgrenciSayac>
+  ) { }
 
   /**
    * this is function is used to create User in User Entity.
@@ -26,12 +28,11 @@ export class OgrenciService {
   async createOgrenci(createOgrenciDto: CreateOgrenciDto): Promise<Ogrenci> {
     const ogrenci: Ogrenci = new Ogrenci();
     let bolum = await this.bolumRepository.findOneByOrFail({
-        id: createOgrenciDto.deptid,
+      id: createOgrenciDto.deptid,
     });
-    ogrenci.dept = bolum; 
+    ogrenci.dept = bolum;
     ogrenci.name = createOgrenciDto.name;
     ogrenci.email = createOgrenciDto.email;
-    ogrenci.counter = createOgrenciDto.counter;
     return this.ogrenciRepository.save(ogrenci);
   }
 
@@ -41,7 +42,7 @@ export class OgrenciService {
    */
   findAllOgrenci(): Promise<Ogrenci[]> {
     return this.ogrenciRepository.find({
-        relations: ['dept'],
+      relations: ['dept'],
     });
   }
 
@@ -52,8 +53,8 @@ export class OgrenciService {
    */
   findOneOgrenci(id: number): Promise<Ogrenci> {
     return this.ogrenciRepository.findOne({
-        where: {id: id},
-        relations: ['dept'],
+      where: { id: id },
+      relations: ['dept'],
     })
   }
 
@@ -67,17 +68,16 @@ export class OgrenciService {
   async updateOgrenci(id: number, updateOgrenciDto: UpdateOgrenciDto): Promise<Ogrenci> {
     const ogrenci: Ogrenci = new Ogrenci();
     const bolum = await this.bolumRepository.findOneByOrFail({
-        id: updateOgrenciDto.deptid
+      id: updateOgrenciDto.deptid
     });
 
     ogrenci.id = id;
     ogrenci.name = updateOgrenciDto.name;
     ogrenci.email = updateOgrenciDto.email;
-    ogrenci.counter = updateOgrenciDto.counter;
-    if(ogrenci.dept && ogrenci.dept.id !== bolum.id)
-        ogrenci.dept = bolum; 
-    else{
-        delete ogrenci.dept
+    if (ogrenci.dept && ogrenci.dept.id !== bolum.id)
+      ogrenci.dept = bolum;
+    else {
+      delete ogrenci.dept
     }
     return this.ogrenciRepository.save(ogrenci);
   }

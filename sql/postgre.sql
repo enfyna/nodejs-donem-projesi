@@ -13,3 +13,7 @@ CREATE TABLE ogrenci (
     FOREIGN KEY (deptid) REFERENCES bolum(id),
     UNIQUE (deptid)
 );
+
+CREATE TABLE ogrenci_sayac (
+    sayac INTEGER DEFAULT 0,
+);
