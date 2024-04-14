@@ -5,6 +5,7 @@ import { CreateOgrenciDto } from './dto/create-ogrenci.dto';
 import { UpdateOgrenciDto } from './dto/update-ogrenci.dto';
 import { Ogrenci } from './entities/ogrenci.entity';
 import { Bolum } from 'src/bolum/entities/bolum.entity';
+import { OgrenciSayac } from 'src/ogrenci-sayac/entities/ogrenci-sayac.entity';
 
 @Injectable()
 export class OgrenciService {
@@ -15,6 +16,7 @@ export class OgrenciService {
   constructor(
     @InjectRepository(Ogrenci) private readonly ogrenciRepository: Repository<Ogrenci>,
     @InjectRepository(Bolum) private readonly bolumRepository: Repository<Bolum>,
+    @InjectRepository(OgrenciSayac) private readonly ogrenciSayacRepository: Repository<OgrenciSayac>
   ) { }
 
   /**
