@@ -5,11 +5,12 @@ import { OgrenciController } from './ogrenci.controller';
 import { Ogrenci } from './entities/ogrenci.entity';
 import { Bolum } from 'src/bolum/entities/bolum.entity';
 import { BolumService } from 'src/bolum/bolum.service';
+import { OgrenciSayac } from 'src/ogrenci-sayac/entities/ogrenci-sayac.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Ogrenci, Bolum])],
+  imports: [TypeOrmModule.forFeature([Ogrenci, Bolum, OgrenciSayac])],
   controllers: [OgrenciController],
   providers: [OgrenciService, BolumService],
 })
 
-export class OgrenciModule {}
+export class OgrenciModule { }

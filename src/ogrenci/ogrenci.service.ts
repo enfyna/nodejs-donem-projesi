@@ -33,6 +33,16 @@ export class OgrenciService {
     ogrenci.dept = bolum;
     ogrenci.name = createOgrenciDto.name;
     ogrenci.email = createOgrenciDto.email;
+
+    let sayac = await this.ogrenciSayacRepository.findOneBy({});
+    if (sayac == null) {
+      sayac = new OgrenciSayac();
+      sayac.sayac = 1;
+      await this.ogrenciSayacRepository.save(sayac);
+    } else {
+      sayac.sayac++;
+      await this.ogrenciSayacRepository.update({}, sayac);
+    }
     return this.ogrenciRepository.save(ogrenci);
   }
 
@@ -87,7 +97,19 @@ export class OgrenciService {
    * @param id is the type of number, which represent id of user
    * @returns nuber of rows deleted or affected
    */
-  removeOgrenci(id: number): Promise<{ affected?: number }> {
+
+  async removeOgrenci(id: number): Promise<{ affected?: number }> {
+    let sayac = await this.ogrenciSayacRepository.findOneBy({});
+    if (sayac == null) {
+      sayac = new OgrenciSayac();
+      sayac.sayac = 0;
+      await this.ogrenciSayacRepository.save(sayac);
+    } else {
+      if (sayac.sayac != 0) {
+        sayac.sayac--;
+        await this.ogrenciSayacRepository.update({}, sayac);
+      }
+    }
     return this.ogrenciRepository.delete(id);
   }
 }
