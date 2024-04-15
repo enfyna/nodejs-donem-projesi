@@ -7,7 +7,9 @@ import { BolumModule } from './bolum/bolum.module';
 import { Ogrenci } from './ogrenci/entities/ogrenci.entity';
 import { Bolum } from './bolum/entities/bolum.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { OgrenciSayac } from './ogrenci-sayac/entities/ogrenci-sayac.entity';
+import { BackupService } from './backup.service';
 
 @Module({
   imports: [
@@ -27,10 +29,11 @@ import { OgrenciSayac } from './ogrenci-sayac/entities/ogrenci-sayac.entity';
         logging: configService.get<boolean>('DB_LOGGING', true),
       }),
     }),
+    ScheduleModule.forRoot(),
     OgrenciModule,
     BolumModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, BackupService],
 })
 export class AppModule { }

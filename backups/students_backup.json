@@ -1,0 +1,11 @@
+[
+  {
+    "id": 13,
+    "name": "ogrenci1",
+    "email": "ogrenci1@example.com",
+    "dept": {
+      "id": 1,
+      "name": "computer engineering"
+    }
+  }
+]

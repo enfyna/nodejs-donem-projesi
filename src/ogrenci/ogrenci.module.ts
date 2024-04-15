@@ -11,6 +11,7 @@ import { OgrenciSayac } from 'src/ogrenci-sayac/entities/ogrenci-sayac.entity';
   imports: [TypeOrmModule.forFeature([Ogrenci, Bolum, OgrenciSayac])],
   controllers: [OgrenciController],
   providers: [OgrenciService, BolumService],
+  exports: [OgrenciService],
 })
 
 export class OgrenciModule { }
