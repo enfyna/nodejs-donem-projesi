@@ -6,12 +6,14 @@ import { OgrenciService } from './ogrenci/ogrenci.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as nodemailer from 'nodemailer';
+require('dotenv').config();
+
 
 @Injectable()
 export class BackupService {
     constructor(private readonly ogrenciService: OgrenciService) { }
 
-    @Cron('6 21 * * 1')
+    @Cron(process.env.BACKUP_PERIOD)
     async handleBackup() {
         try {
             // Öğrenci listesini al
