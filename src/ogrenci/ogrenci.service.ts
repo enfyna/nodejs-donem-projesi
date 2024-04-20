@@ -34,16 +34,19 @@ export class OgrenciService {
     ogrenci.name = createOgrenciDto.name;
     ogrenci.email = createOgrenciDto.email;
 
-    let sayac = await this.ogrenciSayacRepository.findOneBy({});
-    if (sayac == null) {
-      sayac = new OgrenciSayac();
-      sayac.sayac = 1;
-      await this.ogrenciSayacRepository.save(sayac);
-    } else {
-      sayac.sayac++;
-      await this.ogrenciSayacRepository.update({}, sayac);
-    }
-    return this.ogrenciRepository.save(ogrenci);
+    return this.ogrenciRepository.save(ogrenci).then(async (data) => {
+      let sayac = await this.ogrenciSayacRepository.findOneBy({});
+      if (sayac == null) {
+        sayac = new OgrenciSayac();
+        sayac.sayac = 1;
+        await this.ogrenciSayacRepository.save(sayac);
+      } else {
+        sayac.sayac++;
+        await this.ogrenciSayacRepository.update({}, sayac);
+      }
+
+      return data
+    })
   }
 
   /**

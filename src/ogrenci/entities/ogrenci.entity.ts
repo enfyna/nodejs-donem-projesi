@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Bolum } from '../../bolum/entities/bolum.entity';
-import { OgrenciSayac } from '../../ogrenci-sayac/entities/ogrenci-sayac.entity';
 
 @Entity()
 export class Ogrenci {
@@ -19,8 +18,4 @@ export class Ogrenci {
   @OneToOne(() => Bolum, { cascade: true })
   @JoinColumn()
   dept: Bolum;
-
-  @OneToOne(() => OgrenciSayac, { cascade: true })
-  @JoinColumn()
-  sayac: OgrenciSayac;
 }
