@@ -42,6 +42,7 @@ export class OgrenciService {
         await this.ogrenciSayacRepository.save(sayac);
       } else {
         sayac.sayac++;
+        sayac.updated_at = new Date();
         await this.ogrenciSayacRepository.update({}, sayac);
       }
 
@@ -110,6 +111,7 @@ export class OgrenciService {
     } else {
       if (sayac.sayac != 0) {
         sayac.sayac--;
+        sayac.updated_at = new Date();
         await this.ogrenciSayacRepository.update({}, sayac);
       }
     }
